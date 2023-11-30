@@ -25,7 +25,7 @@ class DecentralisedBidding:
         self.bid = bid
         self.auction_history = {}
         self.my_current_bid = {}
-        self.ongoing_auction = {}
+        # self.ongoing_auction = {}
         # self.
 
     def on_new_auction(self, auction: AuctionIncomingData):
@@ -38,7 +38,7 @@ class DecentralisedBidding:
 
         self.auction_history[auction.task_id] = auction
 
-        self.ongoing_auction[auction.task_id] = auction
+        # self.ongoing_auction[auction.task_id] = auction
 
         # print(self.auction_history)
 
@@ -60,7 +60,10 @@ class DecentralisedBidding:
             # we have no interest in this auction.
             return
 
-        if self.my_current_bid[incoming_bid.task_id].bid_value <= incoming_bid.bid_value:
+        if (
+            self.my_current_bid[incoming_bid.task_id].bid_value
+            <= incoming_bid.bid_value
+        ):
             return
         # the bid is lower than our previous bid?
         # TODO: recompute bids value if the bid time is long (where we might have finished a different task by now?)
