@@ -22,6 +22,6 @@ class AuctionIncomingData:
 @dataclass
 class BidPlacementData:
     task_id: str
-    uid: str
+    bidder_id: str
     bid_value: float
-    bid_timestamp: datetime.datetime
+    timestamp: datetime.datetime

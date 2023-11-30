@@ -84,9 +84,9 @@ def on_connect(client, userdata, flags, rc):
 def bid_to_dict(bid: decentralised_bidding.BidPlacementData):
     return dict(
         task_id=bid.task_id,
-        uid=bid.bidder_id,
+        bidder_id=bid.bidder_id,
         bid_value=bid.bid_value,
-        bid_timestamp=datetime.datetime.timestamp(bid.timestamp),
+        timestamp=datetime.datetime.timestamp(bid.timestamp),
     )
 
 
@@ -118,9 +118,9 @@ def on_message(client, userdata, msg):
             json.dumps(
                 dict(
                     task_id=bid_val.task_id,
-                    uid=bid_val.bidder_id,
+                    bidder_id=bid_val.bidder_id,
                     bid_value=bid_val.bid_value,
-                    bid_timestamp=datetime.datetime.timestamp(bid_val.timestamp),
+                    timestamp=datetime.datetime.timestamp(bid_val.timestamp),
                 )
             ),
         )
@@ -133,9 +133,9 @@ def on_message(client, userdata, msg):
 
         incoming_bid = decentralised_bidding.BidPlacementData(
             payload["task_id"],
-            payload["uid"],
+            payload["bidder_id"],
             payload["bid_value"],
-            datetime.datetime.fromtimestamp(payload["bid_timestamp"]),
+            datetime.datetime.fromtimestamp(payload["timestamp"]),
         )
 
         bid_val = bidder.on_new_bid(incoming_bid)
