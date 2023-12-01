@@ -20,6 +20,7 @@ ic(consts.AuctionIncomingData.from_json(new_auction.to_json()))
 # Define on_publish event function
 def on_publish(client, userdata, mid):
     print("Message Published...")
+    exit()
 
 
 def on_connect(client, userdata, flags, rc):

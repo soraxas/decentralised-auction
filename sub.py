@@ -112,18 +112,19 @@ def on_message(client, userdata, msg):
 
         # print(auction)
         bid_val = bidder.on_new_auction(auction)
-        # print(bid_val)
-        client.publish(
-            consts.MQTT_TOPIC_AUCTION_BID,
-            json.dumps(
-                dict(
-                    task_id=bid_val.task_id,
-                    bidder_id=bid_val.bidder_id,
-                    bid_value=bid_val.bid_value,
-                    timestamp=datetime.datetime.timestamp(bid_val.timestamp),
-                )
-            ),
-        )
+        if bid_val:
+            # print(bid_val)
+            client.publish(
+                consts.MQTT_TOPIC_AUCTION_BID,
+                json.dumps(
+                    dict(
+                        task_id=bid_val.task_id,
+                        bidder_id=bid_val.bidder_id,
+                        bid_value=bid_val.bid_value,
+                        timestamp=datetime.datetime.timestamp(bid_val.timestamp),
+                    )
+                ),
+            )
 
     if msg.topic == consts.MQTT_TOPIC_AUCTION_BID:
         payload = json.loads(msg.payload)
@@ -165,5 +166,29 @@ mqttc.on_message = on_message
 # Connect with MQTT Broker
 mqttc.connect(consts.MQTT_HOST, consts.MQTT_PORT, consts.MQTT_KEEPALIVE_INTERVAL)
 
+
+def place_bid_cb(bid_val):
+    mqttc.publish(
+        consts.MQTT_TOPIC_AUCTION_BID,
+        json.dumps(
+            dict(
+                task_id=bid_val.task_id,
+                bidder_id=bid_val.bidder_id,
+                bid_value=bid_val.bid_value,
+                timestamp=datetime.datetime.timestamp(bid_val.timestamp),
+            )
+        ),
+    )
+
+
+bidder.set_place_bid_functor(place_bid_cb)
+
+
 # Loop forever
-mqttc.loop_forever()
+# mqttc.loop_forever()
+
+# print(dir(mqttc))
+mqttc.loop_start()
+
+while True:
+    bidder.poor_man_callback_via_polling()
