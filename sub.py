@@ -1,5 +1,7 @@
 import cppimport.import_hook
-import decentralised_bidding  # This will pause for a moment to compile the module
+from decentralised_bidding import (
+    decentralised_bidding,
+)  # This will pause for a moment to compile the module
 import datetime
 
 # print(decentralised_bidding.square(9))
@@ -73,7 +75,8 @@ print(name)
 
 # Define on_publish event function
 def on_publish(client, userdata, mid):
-    print("Message Published...")
+    pass
+    # print("Message Published...")
 
 
 def on_connect(client, userdata, flags, rc):
@@ -181,7 +184,7 @@ def place_bid_cb(bid_val):
     )
 
 
-bidder.set_place_bid_functor(place_bid_cb)
+bidder.place_bid_functor = place_bid_cb
 
 
 # Loop forever
@@ -191,4 +194,4 @@ bidder.set_place_bid_functor(place_bid_cb)
 mqttc.loop_start()
 
 while True:
-    bidder.poor_man_callback_via_polling()
+    bidder.tick()
