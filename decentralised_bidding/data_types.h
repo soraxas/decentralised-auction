@@ -50,6 +50,23 @@ namespace decauc
         time_point timestamp;
     };
 
+
+    struct TaskStatusUpdate
+    {
+        enum Status {
+            declare_takeover,
+            heart_beat,
+            finished,
+            failed
+        };
+
+        using Ptr = std::shared_ptr<TaskStatusUpdate>;
+
+        std::string task_id;
+        time_point timestamp;
+        Status stastus;
+    };
+
     struct BidderConfig
     {
         double rand_delay_acting_on_new_auction = 0.2;

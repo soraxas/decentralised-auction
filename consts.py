@@ -8,6 +8,7 @@ MQTT_PORT = 1883
 MQTT_KEEPALIVE_INTERVAL = 45
 MQTT_TOPIC_AUCTION = "auction"
 MQTT_TOPIC_AUCTION_BID = "auction/bid"
+MQTT_TOPIC_AUCTION_STATUS = "auction/status"
 
 
 @dataclass_json

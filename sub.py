@@ -82,6 +82,7 @@ def on_publish(client, userdata, mid):
 def on_connect(client, userdata, flags, rc):
     client.subscribe(consts.MQTT_TOPIC_AUCTION)
     client.subscribe(consts.MQTT_TOPIC_AUCTION_BID)
+    client.subscribe(consts.MQTT_TOPIC_AUCTION_STATUS)
 
 
 def bid_to_dict(bid: decentralised_bidding.BidPlacementData):
@@ -156,6 +157,10 @@ def on_message(client, userdata, msg):
         )  # you can use json.loads to convert string to json
         # print((payload))  # then you can check the value
         # # client.disconnect() # Got message then disconnect
+
+    if msg.topic == consts.MQTT_TOPIC_AUCTION_STATUS:
+        pass
+        # bid_val = bidder.on_new_status(incoming_bid)
 
 
 # Initiate MQTT Client
